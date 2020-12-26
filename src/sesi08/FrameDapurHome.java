@@ -3,8 +3,9 @@
  *  in Java Programming Core Fundamental II
  *  with FGroupIndonesia team.
  */
-package sesi04.homework;
+package sesi08;
 
+import sesi04.homework.*;
 import sesi04.*;
 import java.awt.Dimension;
 
@@ -209,6 +210,10 @@ public class FrameDapurHome extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FrameDapurHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

@@ -3,7 +3,7 @@
  *  in Java Programming Core Fundamental II
  *  with FGroupIndonesia team.
  */
-package sesi06;
+package sesi08;
 
 import java.util.Properties;
 import javax.mail.Message;
@@ -19,14 +19,12 @@ import javax.mail.internet.MimeMessage;
  */
 public class PraktekEmail {
 
-    
-    
-    public static void main(String[] args) {
+    public void sendTo(String emailTujuan, String judul, String pesan) {
 
-        String to = "fgroupindonesia@gmail.com";
+        String to = emailTujuan;
         String from = "gumuruh@gmail.com";
         String username = from;
-        String pass = "blablabla";
+        String pass = "bla-bla-bla";
 
         // konfigurasi smtp server
         Properties props = new Properties();
@@ -49,8 +47,8 @@ public class PraktekEmail {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("Experiment Session 06: extra lagi.");
-            message.setText("Data Terkirim dengan baik! \n Berita lain... ada ya! Check aja.");
+            message.setSubject(judul);
+            message.setText(pesan);
             Transport.send(message);
 
             System.out.println("Sent message sukses....");
@@ -58,6 +56,5 @@ public class PraktekEmail {
             mex.printStackTrace();
         }
     }
-
 
 }

@@ -109,8 +109,7 @@ public class TargetLoading extends javax.swing.JFrame {
 
     private void buttonMulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMulaiActionPerformed
 
-        ms1.setJeda(1);
-
+        ms1.setJeda(2);
         ms2.setJeda(1);
 
         ms1.start();

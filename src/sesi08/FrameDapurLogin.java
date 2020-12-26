@@ -3,10 +3,18 @@
  *  in Java Programming Core Fundamental II
  *  with FGroupIndonesia team.
  */
-package sesi04.homework;
+package sesi08;
 
+import sesi04.homework.*;
 import sesi04.*;
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -15,6 +23,9 @@ import javax.swing.JTextField;
  * @author ASUS
  */
 public class FrameDapurLogin extends javax.swing.JFrame {
+
+    int coba = 0;
+    String emailTujuan, dataLogin;
 
     /**
      * Creates new form FrameAwal
@@ -147,6 +158,7 @@ public class FrameDapurLogin extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void textfieldUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textfieldUsernameFocusGained
@@ -179,66 +191,118 @@ public class FrameDapurLogin extends javax.swing.JFrame {
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
         // Menampilkan frame home dan meniadakan
         // frame login tadi (awal)
+        /*
         FrameDapurHome penampilan = new FrameDapurHome(this);
         penampilan.setVisible(true);
         this.setVisible(false);
+         */
+
+        loginAttempt();
 
 
     }//GEN-LAST:event_buttonLoginActionPerformed
 
+
     private void labelForgotPassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelForgotPassMouseClicked
 
         String emailMasuk = JOptionPane.showInputDialog("Masukkan email anda :");
+
+        // emailTujuan maupun dataLogin otomatis dpt nilainya
+        // ketika pemanggilan method searchDatabase
         
         boolean cari = searchDatabase(emailMasuk);
-        
-        if(cari){
+
+        if (cari) {
             // kirim ke email ketika email ditemukan
             // gunakan bufferedReader chap.03
+
+            PraktekEmail mesinEmail = new PraktekEmail();
+            mesinEmail.sendTo(emailTujuan, "Login Recovery Anda", dataLogin);
             
-        }else {
-            
+        } else {
+
             // jika pencarian failed 
             // maka popup error saja
-             JOptionPane.showMessageDialog(null, "Email registered Login not found!",
+            JOptionPane.showMessageDialog(null, "Email registered Login not found!",
                     "System", JOptionPane.ERROR_MESSAGE);
 
         }
 
     }//GEN-LAST:event_labelForgotPassMouseClicked
 
-    
-    private boolean searchDatabase(String emailDicari){
-        
+    private boolean searchDatabase(String emailDicari) {
+
         boolean hasilKetemu = false;
-        
-        // tuliskan pembacaan terhadap file database-sederhana.inf
-        // lakukan iterasi while dan if else  disini (check chap.03)
-        
-        
+        BufferedReader buff = null;
+        try {
+
+            // tuliskan pembacaan terhadap file database-sederhana.inf
+            // lakukan iterasi while dan if else  disini (check chap.03)
+            File tujuanFile = new File("database-sederhana.inf");
+            buff = new BufferedReader(new FileReader(tujuanFile));
+            String terbaca;
+
+            while ((terbaca = buff.readLine()) != null) {
+                // proses pemecahan dan pembagian
+
+                String dataBaris[] = terbaca.split(";");
+                String usName = dataBaris[0];
+                String pass = dataBaris[1];
+                String email = dataBaris[2];
+                
+                emailTujuan = email;
+                dataLogin = "Login anda sebenarnya yaitu " +
+                        "\nusername :" + usName +
+                        "\npass :" + pass;
+                
+                if(email.equalsIgnoreCase(emailDicari)){
+                    hasilKetemu = true;
+                    break;
+                }
+
+            }
+
+        } catch (Exception ex) {
+
+        }
+
         return hasilKetemu;
-        
+
     }
-   
-    
-    int coba = 0;
 
     private void loginAttempt() {
 
+        coba++;
+
         // get input dari kedua textfield
         // simpen ke string
-        String username;
-        String pass;
+        String username = textfieldUsername.getText();
+        String pass = textfieldPassword.getText();
 
         if (coba < 3) {
             // coba blm mncapai 3, maka check login admin bukan?
+            if (username.equalsIgnoreCase("admin") && pass.equalsIgnoreCase("admin")) {
+
+                FrameDapurHome frameSelanjutnya = new FrameDapurHome();
+                frameSelanjutnya.setVisible(true);
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Sorry this login is for admin only!!",
+                        "Administrator Notification", JOptionPane.ERROR_MESSAGE);
+
+            }
 
         } else {
+
             // warning dan kirim email...
             JOptionPane.showMessageDialog(null, "Limit 3x login error!",
                     "Administrator Notification", JOptionPane.ERROR_MESSAGE);
 
             // send email dari sini
+            PraktekEmail machineEmail = new PraktekEmail();
+            machineEmail.sendTo("fgroupindonesia@gmail.com", "Notifikasi Login User Salah", "Telah terjadi kesalah login 3x oleh user " + username);
+            //machineEmail.sendTo("admin@domainKalian.com");
         }
     }
 
@@ -267,6 +331,14 @@ public class FrameDapurLogin extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FrameDapurLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
